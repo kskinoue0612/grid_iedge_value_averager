@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SolverDefinition 
+name="grid_iedge_value_averager" 
+caption="Grid IEdge Value Averager" 
+version="1.0" 
+copyright="iRIC organization" 
+release="2025.09.10" 
+homepage="" 
+executable="grid_iedge_value_averager.py" 
+iterationtype="time"
+modelType="calculator"
+>
+    <GridTypes>
+        <GridType name="input_grid" gridtype="structured2d" caption="Input">
+            <Item name="value" caption="Value">
+                <Definition position="iface" valueType="real" default="0">
+    				<Dimension name="Time" caption="Time" valueType="real"/>
+                </Definition>
+            </Item>
+        </GridType>
+        <GridType name="output_grid" gridtype="structured2d" caption="Output">
+            <Output name="value" caption="Value">
+                <Definition position="iface" valueType="real" />
+            </Output>
+        </GridType>
+    </GridTypes>
+</SolverDefinition>
