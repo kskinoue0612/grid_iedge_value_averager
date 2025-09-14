@@ -8,20 +8,26 @@ release="2025.09.10"
 homepage="" 
 executable="grid_iedge_value_averager.py" 
 iterationtype="time"
-modelType="calculator"
+modeltype="calculator"
 >
+    <CalculationCondition>
+    </CalculationCondition>
     <GridTypes>
         <GridType name="input_grid" gridtype="structured2d" caption="Input">
-            <Item name="value" caption="Value">
-                <Definition position="iface" valueType="real" default="0">
-    				<Dimension name="Time" caption="Time" valueType="real"/>
-                </Definition>
-            </Item>
+        	<GridRelatedCondition>
+                <Item name="value" caption="Value">
+                    <Definition position="iface" valueType="real" default="0">
+                        <Dimension name="Time" caption="Time" valueType="real"/>
+                    </Definition>
+                </Item>
+        	</GridRelatedCondition>
         </GridType>
         <GridType name="output_grid" gridtype="structured2d" caption="Output">
-            <Output name="value" caption="Value">
-                <Definition position="iface" valueType="real" />
-            </Output>
+        	<GridRelatedCondition>
+                <Output name="value" caption="Value">
+                    <Definition position="iface" valueType="real" />
+                </Output>
+        	</GridRelatedCondition>
         </GridType>
     </GridTypes>
 </SolverDefinition>

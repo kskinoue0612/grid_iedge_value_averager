@@ -29,9 +29,15 @@ def get_nearest_edge(x, y, xc, yc):
 
 def main():
     iRICMI_Calc_Init()
+    dump_interval = iRICMI_ROut_Dump_Interval()
+    dump_interval.setValue(-1)  # disable automatic dump
 
-    out_time = iRIC_ROut_Time()
-    in_time = iRIC_RIn_Time()
+    manual_interval = 0.999  # almost 1
+
+    last_dump_time = -10000
+
+    out_time = iRICMI_ROut_Time()
+    in_time = iRICMI_RIn_Time()
     in_value = iRICMI_RIn_Grid_IFace_Real_WithGridId(1, 'value')
     out_value = iRICMI_ROut_Grid_IFace_Real_WithGridId(2, 'value')
 
@@ -57,12 +63,13 @@ def main():
 
     while True:
         canceled = iRICMI_Check_Cancel()
-        if (canceled == 1):
+        if canceled == 1:
             break
 
         iRICMI_Calc_Sync_Receive()
 
         out_time.setValue(in_time.value())
+        print("Handling time at t = ", in_time.value())
 
         in_v = in_value.get()
         out_v = out_value.get()
@@ -84,6 +91,10 @@ def main():
         out_value.set(out_v)
 
         iRICMI_Calc_Sync_Send()
+
+        if in_time.value() - last_dump_time >= manual_interval:
+            iRICMI_Calc_Dump()
+            last_dump_time = in_time.value()
 
     iRICMI_Calc_Terminate()
 
