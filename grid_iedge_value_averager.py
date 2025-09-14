@@ -15,7 +15,7 @@ def calc_distance(x1, y1, x2, y2):
     return ((x1 - x2) ** 2 + (y1 - y2) ** 2) ** 0.5
 
 
-def get_nearest_edge(x, y, xc, yc):
+def get_nearest_iedge(x, y, xc, yc):
     nearest_index = -1
     min_distance = float('inf')
     for i in range(len(xc)):
@@ -50,16 +50,16 @@ def main():
     in_iedge_centers_x, in_iedge_centers_y = calc_iedge_centers(in_x, in_y, in_isize, in_jsize)
     out_iedge_centers_x, out_iedge_centers_y = calc_iedge_centers(out_x, out_y, out_isize, out_jsize)
 
-    in_cell_nearest_indices = []
-    for i in range(len(in_cell_centers_x)):
-        in_cell_nearest_indices.append(get_nearest_cell(in_cell_centers_x[i], in_cell_centers_y[i], out_cell_centers_x, out_cell_centers_y))
+    in_iedge_nearest_indices = []
+    for i in range(len(in_iedge_centers_x)):
+        in_iedge_nearest_indices.append(get_nearest_iedge(in_iedge_centers_x[i], in_iedge_centers_y[i], out_iedge_centers_x, out_iedge_centers_y))
 
-    out_cell_mapping_targets = []
-    for i in range(len(out_cell_centers_x)):
-        out_cell_mapping_targets.append([])
+    out_iedge_mapping_targets = []
+    for i in range(len(out_iedge_centers_x)):
+        out_iedge_mapping_targets.append([])
 
-    for id, nearest_id in enumerate(in_cell_nearest_indices):
-        out_cell_mapping_targets[nearest_id].append(id)
+    for id, nearest_id in enumerate(in_iedge_nearest_indices):
+        out_iedge_mapping_targets[nearest_id].append(id)
 
     while True:
         canceled = iRICMI_Check_Cancel()
@@ -75,7 +75,7 @@ def main():
         out_v = out_value.get()
         out_v[:] = 0
 
-        for out_cell_id, targets in enumerate(out_cell_mapping_targets):
+        for out_iedge_id, targets in enumerate(out_iedge_mapping_targets):
             if len(targets) == 0:
                 continue
 
@@ -86,7 +86,7 @@ def main():
                 count += 1
 
             if count > 0:
-                out_v[out_cell_id] = sum_v / count
+                out_v[out_iedge_id] = sum_v / count
 
         out_value.set(out_v)
 
